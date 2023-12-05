@@ -1,16 +1,26 @@
-def sieve_eratosthenes(n):
-    primes = []
-    sieve = [True] * (n + 1)
+def sieve_of_eratosthenes(n):
+    # Створюємо масив розміром n
+    primes = [0] * n
 
-    for p in range(2, n + 1):
-        if sieve[p]:
-            primes.append(p)
-            for i in range(p * p, n + 1, p):
-                sieve[i] = False
+    # Заповнюємо масив значеннями True
+    for i in range(n):
+        primes[i] = True
 
-    return primes
+    # Проходимо по всьому масиву від 2 до квадратного кореня з n
+    for i in range(2, int(n ** 0.5) + 1):
+        # Якщо число просте, відзначаємо як непрості всі його кратні
+        if primes[i]:
+            for j in range(i * i, n, i):
+                primes[j] = False
+
+    # Числа, що залишилися простими
+    digits = []
+    for i in range(n):
+        if primes[i]:
+            digits.append(i)
+
+    return digits
 
 
-n = int(input("Введіть максимальне число для пошуку простих чисел: "))
-prime_set = set(sieve_eratosthenes(n))
-print("Множина простих чисел до", n, ":", prime_set)
+primes = sieve_of_eratosthenes(100)
+print(primes)
